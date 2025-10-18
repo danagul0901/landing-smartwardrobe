@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SmartWardrobe — умный гардероб с AI</title>
+  <meta name="description" content="SmartWardrobe — приложение, которое сканирует вещи и предлагает готовые образы. Делись стилями с друзьями и находи вдохновение.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root{
+      --bg: #0b0b10; /* глубокий графит */
+      --fg: #f7f7fb; /* почти белый */
+      --muted: #b7b9c3;
+      --brand: #7c5cff; /* фиолетовый акцент */
+      --brand-2: #59d0ff; /* голубой акцент */
+    }
+    html{scroll-behavior:smooth}
+    body{font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; background: radial-gradient(1200px 600px at 80% -10%, rgba(124,92,255,.15), transparent), radial-gradient(900px 500px at 10% -10%, rgba(89,208,255,.12), transparent), var(--bg); color: var(--fg)}
+    .glass{backdrop-filter: blur(10px); background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12)}
+    .btn{display:inline-flex;align-items:center;gap:.6rem;border-radius:9999px;padding:.85rem 1.35rem;font-weight:600}
+    .btn-primary{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#0b0b10;box-shadow:0 10px 30px rgba(124,92,255,.35)}
+    .btn-secondary{border:1px solid rgba(255,255,255,.2);color:var(--fg)}
+    .tag{border:1px solid rgba(255,255,255,.18);border-radius:9999px;padding:.35rem .7rem;font-size:.8rem;color:var(--muted)}
+    .section{padding: 96px 0}
+    .card{border:1px solid rgba(255,255,255,.12);border-radius:1.2rem}
+    .shadow-soft{box-shadow:0 20px 60px rgba(0,0,0,.35)}
+    .grid-auto{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="sticky top-0 z-40 glass">
+    <div class="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 3h12l3 5-9 13L3 8l3-5z" fill="url(#g)"/>
+          <defs><linearGradient id="g" x1="3" y1="3" x2="21" y2="21" gradientUnits="userSpaceOnUse"><stop stop-color="#7c5cff"/><stop offset="1" stop-color="#59d0ff"/></linearGradient></defs>
+        </svg>
+        <span class="font-extrabold text-xl">SmartWardrobe</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-7 text-sm text-slate-200">
+        <a href="#how">Как это работает</a>
+        <a href="#features">Фичи</a>
+        <a href="#pricing">Premium</a>
+        <a href="#community">Сообщество</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <a class="btn btn-secondary" href="#download">Скачать</a>
+        <a class="btn btn-primary" href="#cta">Попробовать бесплатно</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="section pt-14">
+    <div class="mx-auto max-w-7xl px-6 grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <div class="flex items-center gap-3 mb-5">
+          <span class="tag">AI-стилист</span>
+          <span class="tag">Гардероб в телефоне</span>
+          <span class="tag">2 минуты на старт</span>
+        </div>
+        <h1 class="text-4xl md:text-6xl font-extrabold leading-tight">Полный шкаф. <span class="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand)] to-[var(--brand-2)]">Нечего надеть?</span><br> Больше — нет.</h1>
+        <p class="mt-5 text-lg text-slate-300 max-w-xl">SmartWardrobe сканирует твои вещи по фото и мгновенно предлагает готовые образы под погоду, событие и твой стиль. Делись луками с друзьями и вдохновляйся идеями от сообщества.</p>
+        <form id="waitlist" class="mt-8 flex flex-col sm:flex-row gap-3 max-w-xl">
+          <input id="email" type="email" required placeholder="Ваш e-mail" class="flex-1 glass rounded-full px-5 py-3 outline-none placeholder:text-slate-400">
+          <button class="btn btn-primary" type="submit">В лист ожидания</button>
+        </form>
+        <p id="waitlist-msg" class="mt-2 text-sm text-slate-400"></p>
+        <div class="mt-8 flex items-center gap-6 opacity-80">
+          <div class="flex -space-x-3">
+            <img class="w-9 h-9 rounded-full border border-white/20" src="https://i.pravatar.cc/100?img=12" alt="user"/>
+            <img class="w-9 h-9 rounded-full border border-white/20" src="https://i.pravatar.cc/100?img=34" alt="user"/>
+            <img class="w-9 h-9 rounded-full border border-white/20" src="https://i.pravatar.cc/100?img=22" alt="user"/>
+          </div>
+          <span class="text-slate-300 text-sm">10,000+ ранних пользователей</span>
+        </div>
+      </div>
+      <div class="relative">
+        <div class="absolute -inset-6 bg-gradient-to-tr from-[var(--brand)]/20 to-[var(--brand-2)]/20 rounded-3xl blur-2xl"></div>
+        <div class="glass rounded-2xl p-4 shadow-soft">
+          <!-- Мокап телефона -->
+          <div class="bg-black rounded-[2rem] p-4 border border-white/10">
+            <div class="rounded-[1.5rem] overflow-hidden border-4 border-zinc-900">
+              <img src="app preview.png" alt="App preview" class="w-full h-[520px] object-cover"/>
+            </div>
+          </div>
+        </div>
+        <div class="absolute -bottom-6 -left-6 glass p-4 rounded-xl hidden md:flex items-center gap-3">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" class="shrink-0"><path d="M12 3l3 6 6 .9-4.5 4.4 1.1 6.3L12 17l-5.6 3.6 1.1-6.3L3 9.9 9 9l3-6z" fill="url(#g2)"/><defs><linearGradient id="g2" x1="3" y1="3" x2="21" y2="21"><stop stop-color="#7c5cff"/><stop offset="1" stop-color="#59d0ff"/></linearGradient></defs></svg>
+          <div>
+            <p class="font-semibold">AI-подбор луков</p>
+            <p class="text-xs text-slate-400">учитывает погоду и событие</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="how" class="section">
+    <div class="mx-auto max-w-7xl px-6">
+      <h2 class="text-3xl md:text-4xl font-extrabold mb-10">Как это работает</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="card p-6 glass">
+          <div class="tag mb-3">Шаг 1</div>
+          <h3 class="font-semibold text-xl mb-2">Сканируй вещи</h3>
+          <p class="text-slate-300">Фотографируй одежду — приложение распознаёт тип, цвет и фактуру и добавляет в твой цифровой гардероб.</p>
+        </div>
+        <div class="card p-6 glass">
+          <div class="tag mb-3">Шаг 2</div>
+          <h3 class="font-semibold text-xl mb-2">Получай образы</h3>
+          <p class="text-slate-300">AI-алгоритм предлагает сочетания на каждый день или событие. Экономь время и выгляди стильно.</p>
+        </div>
+        <div class="card p-6 glass">
+          <div class="tag mb-3">Шаг 3</div>
+          <h3 class="font-semibold text-xl mb-2">Делись и вдохновляйся</h3>
+          <p class="text-slate-300">Публикуй свои луки, подписывайся на друзей и находи идеи в ленте вдохновения.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="section">
+    <div class="mx-auto max-w-7xl px-6">
+      <h2 class="text-3xl md:text-4xl font-extrabold mb-10">Что внутри</h2>
+      <div class="grid lg:grid-cols-3 gap-6">
+        <div class="card p-6 glass">
+          <h3 class="font-semibold text-xl mb-2">AI-стилист</h3>
+          <p class="text-slate-300">Персональные подсказки по комбинациям, рекомендациям докупок и базовому капсульному гардеробу.</p>
+        </div>
+        <div class="card p-6 glass">
+          <h3 class="font-semibold text-xl mb-2">Под погоду и события</h3>
+          <p class="text-slate-300">Интеграция с погодой твоего города и календарём — подходящие луки на встречу, вечеринку или путешествие.</p>
+        </div>
+        <div class="card p-6 glass">
+          <h3 class="font-semibold text-xl mb-2">Сообщество</h3>
+          <p class="text-slate-300">Лента образов, сохранения, комментарии, приватные или общие подборки.</p>
+        </div>
+        <div class="card p-6 glass">
+          <h3 class="font-semibold text-xl mb-2">Магазин сочетаний</h3>
+          <p class="text-slate-300">Подсказываем, чего не хватает к твоим вещам. Партнёрские ссылки на бренды.</p>
+        </div>
+        <div class="card p-6 glass">
+          <h3 class="font-semibold text-xl mb-2">Умная сортировка</h3>
+          <p class="text-slate-300">Фильтры по цветам, сезонам, стилям и частоте носки. Напоминания о «спящих» вещах.</p>
+        </div>
+        <div class="card p-6 glass">
+          <h3 class="font-semibold text-xl mb-2">Импорт из галереи</h3>
+          <p class="text-slate-300">Добавляй старые фото, снимай новые — всё попадёт в единый каталог.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Monetization / Pricing -->
+  <section id="pricing" class="section">
+    <div class="mx-auto max-w-7xl px-6">
+      <h2 class="text-3xl md:text-4xl font-extrabold mb-10">Тарифы</h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="card p-8 glass">
+          <h3 class="text-2xl font-bold mb-2">Free</h3>
+          <p class="text-slate-300 mb-6">Базовые рекомендации, до 50 вещей в гардеробе, лента идей. Реклама брендов по интересам.</p>
+          <ul class="space-y-2 text-slate-200 mb-8">
+            <li>• Сканирование вещей</li>
+            <li>• Базовые луки и сохранения</li>
+            <li>• Сообщество и подписки</li>
+          </ul>
+          <a href="#cta" class="btn btn-secondary">Начать бесплатно</a>
+        </div>
+        <div class="card p-8 glass border-[2px] border-white/30">
+          <div class="inline-flex items-center gap-2 mb-3"><span class="tag">Рекомендуем</span></div>
+          <h3 class="text-2xl font-bold mb-2">Premium</h3>
+          <p class="text-slate-300 mb-6">Расширенные алгоритмы стиля, без рекламы, неограниченный гардероб, экспорт капсулы и рекомендации докупок.</p>
+          <ul class="space-y-2 text-slate-200 mb-8">
+            <li>• Персональные капсулы и капсулы на сезон</li>
+            <li>• Учёт погоды и календаря</li>
+            <li>• Подбор «чего не хватает» + шоппинг-лист</li>
+          </ul>
+          <a href="#cta" class="btn btn-primary">Оформить Premium</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Community -->
+  <section id="community" class="section">
+    <div class="mx-auto max-w-7xl px-6">
+      <h2 class="text-3xl md:text-4xl font-extrabold mb-10">Сообщество и вдохновение</h2>
+      <div class="grid-auto">
+        <div class="glass p-5 rounded-xl">
+          <p class="text-slate-200 mb-2">«Собираюсь за 30 секунд, а вещи — из шоппинг-листа»</p>
+          <div class="text-sm text-slate-400">— Алина, контент‑креатор</div>
+        </div>
+        <div class="glass p-5 rounded-xl">
+          <p class="text-slate-200 mb-2">«Приложение напоминает о платье, которое я забывала носить»</p>
+          <div class="text-sm text-slate-400">— Дана, студентка</div>
+        </div>
+        <div class="glass p-5 rounded-xl">
+          <p class="text-slate-200 mb-2">«Классная лента — беру идеи у друзей и делюсь своими»</p>
+          <div class="text-sm text-slate-400">— Мира, маркетолог</div>
+        </div>
+        <div class="glass p-5 rounded-xl">
+          <p class="text-slate-200 mb-2">«Premium подобрал капсулу на осень и список покупок»</p>
+          <div class="text-sm text-slate-400">— Асем, архитектор</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta" class="section">
+    <div class="mx-auto max-w-5xl px-6 text-center">
+      <h2 class="text-3xl md:text-5xl font-extrabold">Создай цифровой гардероб сегодня</h2>
+      <p class="mt-4 text-lg text-slate-300">Забудь про «нечего надеть». Подбери образы на неделю вперёд за минуты.</p>
+      <div id="download" class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+        <a class="btn btn-primary" href="#">App Store</a>
+        <a class="btn btn-secondary" href="#">Google Play</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="section pt-0 pb-10">
+    <div class="mx-auto max-w-7xl px-6 grid md:grid-cols-3 gap-8 items-start">
+      <div>
+        <div class="flex items-center gap-2 mb-2">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 3h12l3 5-9 13L3 8l3-5z" fill="url(#g3)"/>
+            <defs><linearGradient id="g3" x1="3" y1="3" x2="21" y2="21"><stop stop-color="#7c5cff"/><stop offset="1" stop-color="#59d0ff"/></linearGradient></defs>
+          </svg>
+          <span class="font-extrabold">SmartWardrobe</span>
+        </div>
+        <p class="text-slate-400">© <span id="year"></span> SmartWardrobe. Все права защищены.</p>
+      </div>
+      <div class="text-slate-300">
+        <p class="font-semibold mb-3">Навигация</p>
+        <ul class="space-y-2">
+          <li><a href="#how" class="hover:underline">Как это работает</a></li>
+          <li><a href="#features" class="hover:underline">Фичи</a></li>
+          <li><a href="#pricing" class="hover:underline">Premium</a></li>
+          <li><a href="#community" class="hover:underline">Сообщество</a></li>
+        </ul>
+      </div>
+      <div class="text-slate-300">
+        <p class="font-semibold mb-3">Контакты</p>
+        <p class="text-slate-400">hello@smartwardrobe.app</p>
+        <p class="text-slate-400">Instagram · TikTok · X</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // год в футере
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // waitlist form (демо, без бэкенда)
+    const form = document.getElementById('waitlist');
+    const email = document.getElementById('email');
+    const msg = document.getElementById('waitlist-msg');
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      if(!email.checkValidity()){
+        msg.textContent = 'Пожалуйста, введите корректный e-mail';
+        msg.className = 'mt-2 text-sm text-red-400';
+        return;
+      }
+      msg.textContent = 'Спасибо! Мы добавили вас в лист ожидания.';
+      msg.className = 'mt-2 text-sm text-emerald-300';
+      email.value = '';
+    });
+  </script>
+</body>
+</html>
